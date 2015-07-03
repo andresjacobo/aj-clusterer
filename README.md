@@ -35,7 +35,7 @@ Follow the steps below and start clustering away in minutes!
 - **Load aj-clusterer.js and its dependencies in your page.** Don't load ``aj-clusterer-async-min.js`` or ``aj-geometry-min.js``. These are used by background threads and are not used directly.
 
 #######
-	<script src="//maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE"></script>
 	<script src="/path/to/underscore-min.js"></script>
 	<script src="/js/path/to/aj-clusterer-min.js"></script>
 
@@ -55,7 +55,7 @@ Follow the steps below and start clustering away in minutes!
 #######
 	var clusterer = new aj.geometry.Clusterer(map, delegate, "/path/to/aj-clusterer-async-min.js", "/path/to/aj-geometry-min.js", "/path/to/underscore-min.js");
 	
-- **Add data to the Clusterer.** You can add coordiantes to the Clusterer at any time. It expects an array of coordinates (which are themselves simple ``[lat, lon]`` arrays). You can *optionally* add an object as the 3rd item of a coordinate to identify it when it is passed back to the delegate (more info in the next steps).
+- **Add data to the Clusterer.** You can add coordiantes to the Clusterer at any time. It expects an array of coordinates (which are themselves simple ``[lat, lon]`` arrays). You can *optionally* add an object as the 3rd item of a coordinate to identify it when it is passed back to the delegate. If you do add an object, keep it small to maximize performance. (more info in the next steps).
 
 #######
 	var coordinates = [ [26, -81, {name: 'Miami', country: 'US'}], 

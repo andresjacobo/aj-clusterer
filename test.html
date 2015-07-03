@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+      	height: 100%;
+      	width: 100%;
+        max-height: 600px;
+        max-width: 1000px;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script src="aj-clusterer.js"></script>
+	<script src="test_data.js"></script>
+    <script>
+var map;
+function initialize() {
+  
+  	var infoWindow = new google.maps.InfoWindow({});
+
+  
+  var map = new google.maps.Map(document.getElementById('map-canvas'), {
+    zoom: 4,
+    minZoom: 3,
+    center: {lat: 26, lng: -81},
+  });
+    
+  	var delegate = {
+  		didSelectCluster: function (clusterer, cluster, googleMarker) { 
+  		
+  		  if (cluster.markers.length > 1) {
+  			
+  			map.panTo(googleMarker.getPosition());
+            map.setZoom(map.getZoom() + 1);
+  		
+          } else {
+          
+            var markerContext = cluster.markers[0].context;
+          	var newElement = $('<div><h3>' + _.escape(markerContext.photo_title) + '</h3><div><a href="' + markerContext.photo_url + '" target="_blank"><img src="' + markerContext.photo_file_url + '"></a></div><a href="http://www.panoramio.com/" target="_blank"><img src="http://maps.google.com/intl/en_ALL/mapfiles/iw_panoramio.png"></a><br><a href="' + markerContext.owner_url + '" target="_blank">' + markerContext.owner_name +'</a></div>')[0];
+          	infoWindow.setContent(newElement);
+          	infoWindow.open(map, googleMarker); //See the reference for details on didSelectCluster.
+          }
+  		}
+	};
+  
+  var clusterer = new aj.geometry.Clusterer(map, delegate, "aj-clusterer-async.js", "aj-geometry.js", "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js");
+  
+  //Change the cluster distance whenever the range (slider) is toggled.
+  $("#range").on('change', function (e) {
+
+     clusterer.setClusterDistance($(this).val());
+  });
+  
+  coordinates = [];
+  
+  _.each(data.photos, function (anObject) {
+  	coordinates.push([anObject.latitude, anObject.longitude, anObject]);
+  });
+    
+  clusterer.addCoordinates(coordinates);
+  
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+    <div class="edsAppMapControlsContainer"> <p>Play with the clustering behavior!</p> <input type="range" min="20" max="200" value="100" id="range"></div>
+  </body>
+</html>
