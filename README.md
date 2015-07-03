@@ -24,7 +24,7 @@ This library uses many modern JavaScript features, and so requires a modern brow
 ### Dependencies:
 This library depends on the following 2 libraries to run:
 
-1. ``underscore.js``. A lightweight and popular utility library used for a lot of the heavy computation. Get it [here](http://http://underscorejs.org).
+1. ``underscore.js``. A lightweight and popular utility library used for a lot of the heavy computation. Get it [here](http://underscorejs.org).
 2. ``Google Maps JavaScript API``. A pretty obvious requirement, although the heavy lifting is decoupled allowing for the future possibility of using it with other mapping libraries.
 
 ##Getting started
