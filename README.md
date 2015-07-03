@@ -9,7 +9,7 @@ It was inspired by the excellent [MarkerClusterer](https://github.com/googlemaps
 If you like the library and have time, consider contributing to it!
 
 ## Live demo
-View a live demo [here](https://rawgit.com/andresjacobo/aj-clusterer/master/test.html)!
+View a live demo [here](https://rawgit.com/andresjacobo/aj-clusterer/master/demo.html)!
 
 ## Requirements for using this library
 
