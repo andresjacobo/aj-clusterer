@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<h2 id="whatistheajclustererlibrary">What is the AJ Clusterer Library?</h2>
+
+<p>A lightweight, easy to use, open-source (MIT license) clustering library for use with the Google Maps JavaScript API.
+It was inspired by the excellent <a href="https://github.com/googlemaps/js-marker-clusterer">MarkerClusterer</a> library. Compared to MarkerClusterer, this library offers less flexibility, but has two distinct advantages:</p>
+
+<ol>
+<li>It is arguably easier to use (And has cuter default icons!).</li>
+<li>It takes advantage of multi-threading on modern clients to achieve better performance and dramatically more responsiveness when dealing with large datasets.</li>
+</ol>
+
+<p>If you like the library and have time, consider contributing to it!</p>
+
+<h2 id="livedemo">Live demo</h2>
+
+<p>View a live demo <a href="https://rawgit.com/andresjacobo/aj-clusterer/master/test.html">here</a>!</p>
+
+<h2 id="requirementsforusingthislibrary">Requirements for using this library</h2>
+
+<h3 id="webbrowserrequirements:">Web browser requirements:</h3>
+
+<p>This library uses many modern JavaScript features, and so requires a modern browser to run:</p>
+
+<ol>
+<li>Safari 6 or later.</li>
+<li>IE 10 or later.</li>
+<li>A recent version of Chrome, Firefox, or Opera.</li>
+<li>Other browsers adhering to the latest standards should also work.</li>
+</ol>
+
+<h3 id="dependencies:">Dependencies:</h3>
+
+<p>This library depends on the following 2 libraries to run:</p>
+
+<ol>
+<li><code>underscore.js</code>. A lightweight and popular utility library used for a lot of the heavy computation. Get it <a href="http://underscorejs.org">here</a>.</li>
+<li><code>Google Maps JavaScript API</code>. A pretty obvious requirement, although the heavy lifting is decoupled allowing for the future possibility of using it with other mapping libraries.</li>
+</ol>
+
+<h2 id="gettingstarted">Getting started</h2>
+
+<p>Follow the steps below and start clustering away in minutes!</p>
+
+<ul>
+<li><p><strong>Get the source code.</strong> There are three JS files you&#8217;ll need: <code>aj-clusterer-min.js</code>, <code>aj-clusterer-async-min.js</code>, and <code>aj-geometry-min.js</code>. They are all in the repository. They are minified to minimize download time. You are also welcome to exchange them for the non-minified versions. They are the same.</p></li>
+<li><p><strong>Load aj-clusterer.js and its dependencies in your page.</strong> Don&#8217;t load <code>aj-clusterer-async-min.js</code> or <code>aj-geometry-min.js</code>. These are used by background threads and are not used directly.</p></li>
+</ul>
+
+<p>#######
+ <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE"></script>
+ <script src="/path/to/underscore-min.js"></script>
+ <script src="/js/path/to/aj-clusterer-min.js"></script></p>
+
+<ul>
+<li><strong>Setup your Google Map as usual.</strong> Nothing special here!</li>
+</ul>
+
+<p>#######
+ var mapOptions = {
+ center: { lat: 26.397, lng: &#8211;81.0},
+ zoom: 6,
+ minZoom: 3
+ };</p>
+
+<pre><code>map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+</code></pre>
+
+<ul>
+<li><strong>Create a new Clusterer instance.</strong> To do so, pass it the map we just created, a delagate (which we will configure in the next steps), as well as the URLs for <code>aj-clusterer-async-min.js</code>, <code>aj-geometry-min.js</code> and <code>underscore.js</code>. Background threads managed by the Clusterer will reference these URLs when they&#8217;re doing their work.</li>
+</ul>
+
+<p>#######
+ var clusterer = new aj.geometry.Clusterer(map, delegate, &#8220;/path/to/aj-clusterer-async-min.js&#8221;, &#8220;/path/to/aj-geometry-min.js&#8221;, &#8220;/path/to/underscore-min.js&#8221;);</p>
+
+<ul>
+<li><strong>Add data to the Clusterer.</strong> You can add coordiantes to the Clusterer at any time. It expects an array of coordinates (which are themselves simple <code>[lat, lon]</code> arrays). You can <em>optionally</em> add an object as the 3rd item of a coordinate to identify it when it is passed back to the delegate. If you do add an object, keep it small to maximize performance. (more info in the next steps).</li>
+</ul>
+
+<p>#######
+ var coordinates = [ [26, &#8211;81, {name: &#8216;Miami&#8217;, country: &#8216;US&#8217;}],
+ [27, &#8211;81, {name: &#8216;Ft. Lauderdale&#8217;, country: &#8216;US&#8217;}],
+ [35, 139, {name: &#8216;Tokyo&#8217;, country: &#8216;JP&#8217;}],
+ [2, 41, {name: &#8216;Barcelona&#8217; country: &#8216;ES&#8217;}]
+ ]</p>
+
+<pre><code>clusterer.addCoordinates(coordinates); //And they will magically appear on the map!
+</code></pre>
+
+<ul>
+<li><strong>Setup the delegate.</strong> The delegate will be notified whenever a cluster or a lonely marker is clicked/tapped. The delegate can be any object, including the page&#8217;s window. Here we will just create a simple delegate object <em>before</em> we declare the Clusterer:</li>
+</ul>
+
+<p>#######
+ var infoWindow = new google.maps.InfoWindow({});</p>
+
+<pre><code>var delegate = {
+    didSelectCluster: function (clusterer, cluster, googleMarker) { 
+      infoWindow.open(map, googleMarker); //See the reference for details on didSelectCluster.
+    }
+};
+
+//Rest of code goes here.
+</code></pre>
+
+<ul>
+<li><strong>Advanced: Dynamically change the Clusterer&#8217;s behavior.</strong> Read the <em>Reference</em> for a detailed explanation of the <code>Clusterer</code> class, and how you can use it to dynamically change its behavior.</li>
+</ul>
+
+</body>
+</html>
