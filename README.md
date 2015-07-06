@@ -6,7 +6,7 @@ It was inspired by the excellent [MarkerClusterer](https://github.com/googlemaps
 1. It is arguably easier to use (And has cuter default icons!).
 2. It takes advantage of multi-threading on modern clients to achieve better performance and dramatically more responsiveness when dealing with large datasets. 
 
-If you like the library and have time, consider contributing to it!
+If you like the library and have time, consider contributing to it! This library was made to solve performance problems with data vizualization at Robert McNeel & Associates.
 
 ## Live demo
 View a live demo [here](https://rawgit.com/andresjacobo/aj-clusterer/master/demo.html)!
