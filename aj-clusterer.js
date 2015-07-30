@@ -30,6 +30,7 @@ aj.geometry.Clusterer = function (map, delegate, asyncURL, geometryURL, undersco
     this.ceilValue = 10000;
     this.minClusterSize = 25;
     this.maxClusterSize = 50;
+	this.clusterDistance = 100;
     this.clusterLineWidth = 2;
     this.ctx = this.cnv.getContext("2d");
 
@@ -116,7 +117,8 @@ aj.geometry.Clusterer = function (map, delegate, asyncURL, geometryURL, undersco
     };
 
     this.setClusterDistance = function (clusterDistance) {
-
+		
+		this.clusterDistance = clusterDistance;
         var message = {command: "set-cluster-distance", payload: {distance: clusterDistance}};
         this.worker.postMessage(message);
         this.redraw();
@@ -158,6 +160,7 @@ aj.geometry.Clusterer = function (map, delegate, asyncURL, geometryURL, undersco
         this.worker.onmessage = this.onmessageFn;
         this.worker.postMessage({command: "init", payload: {geometryURL: this.geometryURL,
                                                             underscoreURL: this.underscoreURL}});
+		this.setClusterDistance(this.clusterDistance);
         this.redraw();
     };
 
